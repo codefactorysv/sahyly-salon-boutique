@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sahyly Salon &amp; Boutique | Pasadena, TX</title>
+<meta name="description" content="Sahyly Salon &amp; Boutique — personalized beauty and hair care services in Pasadena, Texas.">
+<link rel="icon" type="image/png" href="img/logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Montserrat:wght@300;400;500;600;700&family=Alex+Brush&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="#hero" class="logo-link" aria-label="Sahyly Salon &amp; Boutique — home">
+      <img src="img/logo.png" alt="Sahyly Salon &amp; Boutique" class="logo-img">
+    </a>
+
+    <nav class="main-nav" id="mainNav">
+      <ul>
+        <li><a href="#bienvenida">About</a></li>
+        <li><a href="#servicios">Services</a></li>
+        <li><a href="#galeria">Gallery</a></li>
+        <li><a href="#boutique">Boutique</a></li>
+        <li><a href="#contacto">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <button class="btn btn-primary btn-sm js-open-appt" type="button">Book Appointment</button>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="hero-media">
+    <img
+      src="https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=1900&q=80"
+      alt="Professional stylist working on a client's hair in a modern salon"
+      class="hero-img">
+    <div class="hero-overlay"></div>
+  </div>
+
+  <div class="hero-content">
+    <p class="eyebrow reveal">Sahyly Salon &amp; Boutique</p>
+    <h1 class="hero-title reveal">YOUR BEAUTY,<br>OUR PASSION</h1>
+    <p class="hero-text reveal">Personalized beauty and hair care services in Pasadena, Texas.</p>
+    <div class="hero-cta reveal">
+      <button class="btn btn-primary js-open-appt" type="button">Book Appointment</button>
+      <a href="#servicios" class="btn btn-outline-light">View Services</a>
+    </div>
+  </div>
+
+  <a href="#bienvenida" class="scroll-cue" aria-label="Scroll to next section">
+    <span></span>
+  </a>
+</section>
+
+<!-- ============ BIENVENIDA ============ -->
+<section class="bienvenida" id="bienvenida">
+  <div class="bienvenida-inner">
+    <div class="bienvenida-text">
+      <p class="script-accent reveal">Welcome to Sahyly</p>
+      <h2 class="reveal">SALON &amp; BOUTIQUE</h2>
+      <p class="reveal">
+        Sahyly Salon &amp; Boutique is a beauty center in Pasadena, Texas,
+        specializing in personalized hair services designed to help every
+        client look and feel their best.
+      </p>
+      <a href="#servicios" class="text-link editorial-cta reveal">
+        <span class="editorial-cta-dot" aria-hidden="true"></span>
+        Discover our services
+        <span class="editorial-cta-arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+
+    <div class="bienvenida-media reveal">
+      <img
+        src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=80"
+        alt="Elegant, minimalist salon interior"
+        class="bienvenida-img">
+    </div>
+  </div>
+
+  <svg class="section-curve" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,16 Q 820,50 1440,10 L1440,60 L0,60 Z" fill="#ffffff"/>
+  </svg>
+</section>
+
+<!-- ============ SERVICIOS ============ -->
+<section class="servicios" id="servicios">
+  <div class="section-head">
+    <p class="eyebrow-dark reveal">What we do</p>
+    <h2 class="reveal">SERVICES &amp; TREATMENTS</h2>
+  </div>
+
+  <div class="services-grid">
+    <article class="service-card reveal">
+      <div class="service-img">
+        <img src="https://images.unsplash.com/photo-1700760934268-8aa0ef52ce0a?auto=format&fit=crop&w=700&q=80" alt="Professional haircut">
+      </div>
+      <h3>Haircuts</h3>
+      <p>Personalized cuts for every face shape and hair texture, with a polished, on-trend finish.</p>
+      <button class="text-link js-open-appt" data-service="Haircuts" type="button">Book &rarr;</button>
+    </article>
+
+    <article class="service-card reveal">
+      <div class="service-img">
+        <img src="https://images.unsplash.com/photo-1638064432648-bc2f9a91b06b?auto=format&fit=crop&w=700&q=80" alt="Hair coloring process">
+      </div>
+      <h3>Color</h3>
+      <p>Custom color, from natural tones to complete transformations.</p>
+      <button class="text-link js-open-appt" data-service="Color" type="button">Book &rarr;</button>
+    </article>
+
+    <article class="service-card reveal">
+      <div class="service-img">
+        <img src="https://images.unsplash.com/photo-1554519934-e32b1629d9ee?auto=format&fit=crop&w=700&q=80" alt="Hair with highlights">
+      </div>
+      <h3>Highlights</h3>
+      <p>Highlights and lowlights that bring light, dimension, and movement to your hair.</p>
+      <button class="text-link js-open-appt" data-service="Highlights" type="button">Book &rarr;</button>
+    </article>
+
+    <article class="service-card reveal">
+      <div class="service-img">
+        <img src="https://images.unsplash.com/photo-1605980766335-d3a41c7332a1?auto=format&fit=crop&w=700&q=80" alt="Balayage hair result">
+      </div>
+      <h3>Balayage</h3>
+      <p>Hand-painted highlighting technique for a natural, luminous graduated effect.</p>
+      <button class="text-link js-open-appt" data-service="Balayage" type="button">Book &rarr;</button>
+    </article>
+
+    <article class="service-card reveal">
+      <div class="service-img">
+        <img src="https://images.unsplash.com/photo-1647462741268-e5724e5886c0?auto=format&fit=crop&w=700&q=80" alt="Keratin treatment">
+      </div>
+      <h3>Keratin</h3>
+      <p>Smoothing treatment that softens, hydrates, and eliminates frizz for healthy shine.</p>
+      <button class="text-link js-open-appt" data-service="Keratin" type="button">Book &rarr;</button>
+    </article>
+
+    <article class="service-card reveal">
+      <div class="service-img">
+        <img src="https://images.unsplash.com/photo-1560869713-bf165a9cfac1?auto=format&fit=crop&w=700&q=80" alt="Hair styling with extensions">
+      </div>
+      <h3>Extensions</h3>
+      <p>Extensions to naturally add length, volume, and density.</p>
+      <button class="text-link js-open-appt" data-service="Extensions" type="button">Book &rarr;</button>
+    </article>
+  </div>
+</section>
+
+<!-- ============ BOUTIQUE ============ -->
+<section class="boutique" id="boutique">
+  <div class="boutique-inner">
+    <div class="boutique-media">
+      <img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=1000&q=80" alt="Beauty and makeup treatment">
+    </div>
+    <div class="boutique-text">
+      <p class="script-accent reveal">More than a salon</p>
+      <h2 class="reveal">SALON &amp; BOUTIQUE</h2>
+      <p class="reveal">
+        At Sahyly we care about every detail: hair, beauty, and personal style
+        come together in one space designed to help you leave feeling as
+        good as you look.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section class="galeria" id="galeria">
+  <div class="section-head">
+    <p class="eyebrow-dark reveal">Style &amp; Inspiration</p>
+    <h2 class="reveal">INSPIRATION &amp; STYLE</h2>
+    <p class="galeria-note reveal">A curated visual selection to inspire your next transformation.</p>
+  </div>
+
+  <div class="gallery-grid">
+    <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1629397685944-7073f5589754?auto=format&fit=crop&w=700&q=75" alt="Curling iron styling in a salon"></div>
+    <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=700&q=75" alt="Long, wavy hair"></div>
+    <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=700&q=75" alt="Editorial hair portrait"></div>
+    <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1554519880-ffe46861d570?auto=format&fit=crop&w=700&q=75" alt="Soft waves in brown hair"></div>
+    <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?auto=format&fit=crop&w=700&q=75" alt="Professional blow-dry and styling"></div>
+    <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1617311454806-1b8b2b8af811?auto=format&fit=crop&w=700&q=75" alt="Sleek, shiny hair"></div>
+  </div>
+</section>
+
+<!-- ============ CONTACTO / MAPA ============ -->
+<section class="contacto" id="contacto">
+  <div class="contacto-inner">
+    <div class="contacto-info">
+      <p class="eyebrow-dark reveal">Visit Us</p>
+      <h2 class="reveal">BOOK YOUR APPOINTMENT</h2>
+      <p class="reveal">Find us in Pasadena, Texas. We'd love to welcome you.</p>
+
+      <div class="info-block reveal">
+        <span class="info-label">Address</span>
+        <p>3604 Fairmont Pkwy, Suite A-2<br>Pasadena, TX 77504</p>
+      </div>
+
+      <div class="contacto-cta reveal">
+        <button class="btn btn-primary js-open-appt" type="button">Book Appointment</button>
+        <a class="btn btn-outline-dark" href="https://www.google.com/maps/dir/?api=1&destination=3604+Fairmont+Pkwy+Suite+A-2+Pasadena+TX+77504" target="_blank" rel="noopener">Get Directions</a>
+      </div>
+    </div>
+
+    <div class="contacto-map reveal">
+      <iframe
+        title="Sahyly Salon & Boutique location"
+        src="https://www.google.com/maps?q=3604+Fairmont+Pkwy+Suite+A-2+Pasadena+TX+77504&output=embed&hl=en"
+        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <img src="img/logo.png" alt="Sahyly Salon & Boutique" class="footer-logo">
+
+    <nav class="footer-nav">
+      <a href="#bienvenida">About</a>
+      <a href="#servicios">Services</a>
+      <a href="#galeria">Gallery</a>
+      <a href="#boutique">Boutique</a>
+      <a href="#contacto">Contact</a>
+    </nav>
+
+    <p class="footer-address">3604 Fairmont Pkwy, Suite A-2 · Pasadena, TX 77504</p>
+    <p class="footer-copy">&copy; <span id="year"></span> Sahyly Salon &amp; Boutique. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- ============ BOOKING DRAWER ============ -->
+<div class="appt-backdrop" id="apptBackdrop"></div>
+<aside class="appt-drawer" id="apptDrawer" aria-hidden="true">
+  <button class="appt-close" id="apptClose" aria-label="Close">&times;</button>
+
+  <div class="appt-drawer-content">
+    <div class="appt-head">
+      <p class="script-accent appt-head-mark">Sahyly</p>
+      <h3>Book Appointment</h3>
+      <p class="appt-sub">Choose your service, stylist, and time to book your appointment.</p>
+    </div>
+
+    <ol class="appt-progress" id="apptProgress"></ol>
+
+    <div class="appt-step-viewport">
+      <div class="appt-step" id="apptStepContent"></div>
+    </div>
+  </div>
+</aside>
+
+<script src="js/booking-data.js"></script>
+<script src="js/booking-store.js"></script>
+<script src="js/booking-drawer.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
