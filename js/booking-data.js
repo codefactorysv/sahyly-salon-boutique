@@ -39,18 +39,15 @@
   ];
 
   /* ---------------------------------------------------------
-     Stylists — TEMPORARY placeholder names.
-     Replace `name` (and set placeholder:false) once real staff
-     are confirmed. `service_ids: null` means "offers every service";
-     set an array of service ids to restrict a stylist to specific
-     services once that's needed.
+     Stylists — real staff.
+     `service_ids: null` means "offers every service"; set an array of
+     service ids to restrict a stylist to specific services once that's
+     needed. When only one real stylist exists, the booking drawer hides
+     the "Any available stylist" option automatically.
   --------------------------------------------------------- */
   var stylists = [
-    { id: "any",       name: "Any available stylist", placeholder: false, isAny: true, service_ids: null },
-    { id: "stylist-1", name: "Sofía Martínez",  placeholder: true, isAny: false, service_ids: null },
-    { id: "stylist-2", name: "Isabella Reyes",  placeholder: true, isAny: false, service_ids: null },
-    { id: "stylist-3", name: "Camila Torres",   placeholder: true, isAny: false, service_ids: null },
-    { id: "stylist-4", name: "Valentina Cruz",  placeholder: true, isAny: false, service_ids: null }
+    { id: "any",              name: "Any available stylist", placeholder: false, isAny: true,  service_ids: null },
+    { id: "sahyly-pedraza",   name: "Sahyly Pedraza",        placeholder: false, isAny: false, service_ids: null }
   ];
 
   /* ---------------------------------------------------------
