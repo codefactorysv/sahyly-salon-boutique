@@ -1,13 +1,18 @@
 /* ==========================================================
-   Sahyly booking backend — Resend integration
+   Sahyly — envío de correos con Resend
 
-   Server-side only. RESEND_API_KEY is read from process.env and
-   never touches any file the browser can load.
+   Solo servidor. RESEND_API_KEY se lee de process.env y nunca llega a
+   ningún archivo que el navegador pueda descargar (server.js solo
+   publica /css, /js, /img e index.html).
    ========================================================== */
 "use strict";
 
 const { Resend } = require("resend");
-const { buildBookingEmailHtml, buildBookingEmailSubject } = require("./email-template.js");
+const {
+  buildBookingEmailHtml,
+  buildBookingEmailText,
+  buildBookingEmailSubject
+} = require("./email-template.js");
 
 let resendClient = null;
 function getClient() {
@@ -16,23 +21,39 @@ function getClient() {
   return resendClient;
 }
 
+// CONTACT_TO_EMAIL / CONTACT_FROM_EMAIL son los nombres actuales;
+// RESEND_FROM_EMAIL, RESEND_FROM_NAME y BOOKING_NOTIFICATION_EMAIL se
+// mantienen como alias para no romper despliegues antiguos.
+function fromAddress() {
+  if (process.env.CONTACT_FROM_EMAIL) return process.env.CONTACT_FROM_EMAIL;
+  if (process.env.RESEND_FROM_EMAIL) {
+    return `${process.env.RESEND_FROM_NAME || "Sahyly Salon & Boutique"} <${process.env.RESEND_FROM_EMAIL}>`;
+  }
+  return "";
+}
+function toAddress() {
+  return process.env.CONTACT_TO_EMAIL || process.env.BOOKING_NOTIFICATION_EMAIL || "";
+}
+
 /**
- * Sends the admin notification for a booking. Never throws — a failed
- * email must not affect the already-created booking. Returns
- * { status: 'sent' | 'failed', error?: string }.
+ * Envía al salón la notificación de una cita. Nunca lanza: un correo
+ * fallido no debe afectar a la reserva ya creada.
+ * Devuelve { status: 'sent', id } o { status: 'failed', error }.
+ * `error` es para el log/BD — al cliente solo se le devuelve un mensaje
+ * genérico desde server.js.
  */
 async function sendBookingNotification(booking) {
   const client = getClient();
-  const from = `${process.env.RESEND_FROM_NAME || "Sahyly Salon & Boutique"} <${process.env.RESEND_FROM_EMAIL || ""}>`;
-  const to = process.env.BOOKING_NOTIFICATION_EMAIL;
+  const from = fromAddress();
+  const to = toAddress();
 
-  if (!client || !process.env.RESEND_FROM_EMAIL || !to) {
+  if (!client || !from || !to) {
     const missing = [
       !process.env.RESEND_API_KEY && "RESEND_API_KEY",
-      !process.env.RESEND_FROM_EMAIL && "RESEND_FROM_EMAIL",
-      !to && "BOOKING_NOTIFICATION_EMAIL"
+      !from && "CONTACT_FROM_EMAIL",
+      !to && "CONTACT_TO_EMAIL"
     ].filter(Boolean).join(", ");
-    console.error(`[mailer] skipped sending for ${booking.booking_code} — missing env var(s): ${missing}`);
+    console.error(`[mailer] envío omitido para ${booking.booking_code} — falta(n) variable(s) de entorno: ${missing}`);
     return { status: "failed", error: `Missing env var(s): ${missing}` };
   }
 
@@ -40,17 +61,23 @@ async function sendBookingNotification(booking) {
     const result = await client.emails.send({
       from,
       to,
-      replyTo: booking.email,
+      replyTo: booking.email, // responder al correo escribe directo al cliente
       subject: buildBookingEmailSubject(booking),
-      html: buildBookingEmailHtml(booking)
+      html: buildBookingEmailHtml(booking),
+      text: buildBookingEmailText(booking)
     });
+
     if (result && result.error) {
-      console.error(`[mailer] Resend returned an error for ${booking.booking_code}:`, result.error);
+      // Resend devuelve el error en el cuerpo, no como excepción.
+      console.error(`[mailer] Resend devolvió un error para ${booking.booking_code}:`, result.error);
       return { status: "failed", error: String(result.error.message || result.error) };
     }
-    return { status: "sent" };
+
+    const id = result && result.data ? result.data.id : null;
+    console.log(`[mailer] correo enviado para ${booking.booking_code} — Resend id: ${id}`);
+    return { status: "sent", id };
   } catch (err) {
-    console.error(`[mailer] failed to send notification for ${booking.booking_code}:`, err);
+    console.error(`[mailer] fallo al enviar la notificación de ${booking.booking_code}:`, err);
     return { status: "failed", error: String((err && err.message) || err) };
   }
 }

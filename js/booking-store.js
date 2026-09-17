@@ -34,11 +34,11 @@
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        return { ok: false, status: res.status, message: data.error || "We couldn't book your appointment. Please try again." };
+        return { ok: false, status: res.status, message: data.error || "No pudimos registrar tu cita. Inténtalo de nuevo en unos minutos." };
       }
       return { ok: true, booking: data.booking };
     } catch (err) {
-      return { ok: false, status: 0, message: "We couldn't connect to the server. Check your connection and try again." };
+      return { ok: false, status: 0, message: "No pudimos conectar con el servidor. Revisa tu conexión e inténtalo de nuevo." };
     }
   }
 
