@@ -115,8 +115,11 @@
   }
 
   function renderStep2() {
+    var roster = DATA.realStylists();
     var any = DATA.stylistById("any");
-    var anyCard = '<button type="button" class="bk-stylist-card bk-stylist-any' + (state.stylist && state.stylist.id === "any" ? " is-selected" : "") + '" data-stylist-id="any">' +
+    // With a single stylist on the roster, "Any available stylist" would
+    // just duplicate the one real card — only offer it when there's a choice.
+    var anyCard = roster.length < 2 ? "" : '<button type="button" class="bk-stylist-card bk-stylist-any' + (state.stylist && state.stylist.id === "any" ? " is-selected" : "") + '" data-stylist-id="any">' +
       '<span class="bk-stylist-avatar bk-stylist-avatar-any" aria-hidden="true">' +
       '<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM2 19c.6-3 3-5 6-5s5.4 2 6 5M14 14c2.8 0 5.2 2 5.8 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
       '<span class="bk-stylist-info">' +
@@ -126,7 +129,7 @@
       '<span class="bk-stylist-arrow" aria-hidden="true">&rarr;</span>' +
       "</button>";
 
-    var cards = DATA.realStylists().map(function (s) {
+    var cards = roster.map(function (s) {
       var selected = state.stylist && state.stylist.id === s.id;
       return '<button type="button" class="bk-stylist-card' + (selected ? " is-selected" : "") + '" data-stylist-id="' + s.id + '">' +
         '<span class="bk-stylist-avatar">' + initials(s.name) + "</span>" +
