@@ -6,7 +6,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "email:preview": "node scripts/generate-email-preview.js"
   },
   "dependencies": {
     "better-sqlite3": "^11.3.0",

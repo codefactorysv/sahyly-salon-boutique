@@ -846,6 +846,14 @@ ul{ list-style:none; margin:0; padding:0; }
 }
 .bk-change-link:hover{ text-decoration: underline; }
 
+/* Honeypot anti-spam: invisible para personas, visible para bots.
+   Se saca del flujo en vez de usar display:none, que algunos bots
+   detectan y omiten. */
+.bk-hp{
+  position:absolute; left:-9999px; top:auto;
+  width:1px; height:1px; overflow:hidden;
+}
+
 .bk-error-banner{
   background: color-mix(in srgb, var(--pink) 10%, var(--white));
   border: 1px solid color-mix(in srgb, var(--pink) 40%, transparent);
