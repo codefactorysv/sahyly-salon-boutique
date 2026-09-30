@@ -45,6 +45,7 @@
       time: null,
       availableStylistIdsForSlot: [],
       customer: { firstName: "", lastName: "", phone: "", email: "", notes: "", recipientName: "" },
+      honeypot: "", // campo trampa anti-bots (debe viajar siempre vacío)
       bookingForOther: false,
       submitting: false,
       lastBooking: null,
@@ -77,6 +78,38 @@
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   }
+  // Mismos límites y reglas que server/validate.js: la validación del
+  // cliente es solo comodidad, el servidor vuelve a comprobarlo todo.
+  var MAX = { name: 60, phone: 25, email: 120, recipient: 80, notes: 1000 };
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function validateCustomerForm(f) {
+    var firstName = f.firstName.value.trim();
+    var lastName = f.lastName.value.trim();
+    var phone = f.phone.value.trim();
+    var phoneDigits = phone.replace(/\D/g, "");
+    var email = f.email.value.trim();
+    var recipient = (f.recipientName && f.recipientName.value ? f.recipientName.value : "").trim();
+
+    if (!firstName) return "Escribe tu nombre.";
+    if (!lastName) return "Escribe tus apellidos.";
+    if (firstName.length > MAX.name || lastName.length > MAX.name) return "El nombre es demasiado largo.";
+    if (phoneDigits.length < 10 || phoneDigits.length > 15 || phone.length > MAX.phone) {
+      return "Escribe un teléfono válido de 10 dígitos.";
+    }
+    if (!EMAIL_RE.test(email) || email.length > MAX.email) return "Escribe un correo electrónico válido.";
+    if (state.bookingForOther && !recipient) return "Escribe el nombre de la persona que recibirá el servicio.";
+    if (recipient.length > MAX.recipient) return "Ese nombre es demasiado largo.";
+    return null;
+  }
+
+  function showFormError(msg) {
+    var el = document.getElementById("bkFormError");
+    if (!el) return;
+    el.textContent = msg || "";
+    el.hidden = !msg;
+  }
+
   function genRequestId() {
     if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
     return "req_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
@@ -247,11 +280,11 @@
       '<p class="bk-recap">' + escapeHtml(state.service.name) + " &middot; " + formatDateLong(state.date) + " &middot; " + minutesToLabel(state.time) + "</p>" +
       '<form id="bkCustomerForm" class="bk-form" novalidate>' +
       '<div class="bk-form-row">' +
-      '<label>First Name *<input type="text" name="firstName" required value="' + escapeHtml(c.firstName) + '"></label>' +
-      '<label>Last Name *<input type="text" name="lastName" required value="' + escapeHtml(c.lastName) + '"></label>' +
+      '<label>First Name *<input type="text" name="firstName" required maxlength="60" value="' + escapeHtml(c.firstName) + '"></label>' +
+      '<label>Last Name *<input type="text" name="lastName" required maxlength="60" value="' + escapeHtml(c.lastName) + '"></label>' +
       "</div>" +
-      '<label>Phone *<input type="tel" name="phone" id="bkPhoneInput" required placeholder="(713) 555-1234" value="' + escapeHtml(c.phone) + '"></label>' +
-      '<label>Email *<input type="email" name="email" required value="' + escapeHtml(c.email) + '"></label>' +
+      '<label>Phone *<input type="tel" name="phone" id="bkPhoneInput" required maxlength="25" placeholder="(713) 555-1234" value="' + escapeHtml(c.phone) + '"></label>' +
+      '<label>Email *<input type="email" name="email" required maxlength="120" value="' + escapeHtml(c.email) + '"></label>' +
 
       '<label class="bk-switch-row">' +
       '<input type="checkbox" id="bkForOther"' + (state.bookingForOther ? " checked" : "") + '>' +
@@ -261,10 +294,17 @@
 
       '<label class="bk-recipient-field"' + (state.bookingForOther ? "" : " hidden") + ' id="bkRecipientField">' +
       "Name of the person receiving the service" +
-      '<input type="text" name="recipientName" value="' + escapeHtml(c.recipientName) + '"></label>' +
+      '<input type="text" name="recipientName" maxlength="80" value="' + escapeHtml(c.recipientName) + '"></label>' +
 
-      '<label>Notes (optional)<textarea name="notes" rows="3">' + escapeHtml(c.notes) + "</textarea></label>" +
+      '<label>Notes (optional)<textarea name="notes" rows="3" maxlength="1000">' + escapeHtml(c.notes) + "</textarea></label>" +
 
+      // Honeypot: invisible y fuera del orden de tabulación. Si llega con
+      // texto, el servidor descarta la petición como spam.
+      '<div class="bk-hp" aria-hidden="true">' +
+      '<label>Company<input type="text" name="company" tabindex="-1" autocomplete="off" value=""></label>' +
+      "</div>" +
+
+      '<div class="bk-error-banner" id="bkFormError" hidden></div>' +
       '<button type="submit" class="btn btn-primary btn-block">Continue</button>' +
       "</form>" +
       "</div>";
@@ -422,7 +462,7 @@
     var btn = document.getElementById("bkConfirmBtn");
     if (!btn) return;
     btn.disabled = loading;
-    btn.querySelector(".bk-confirm-label").textContent = loading ? "Booking your appointment..." : "Confirm Appointment";
+    btn.querySelector(".bk-confirm-label").textContent = loading ? "Enviando tu solicitud..." : "Confirm Appointment";
     btn.querySelector(".bk-spinner").hidden = !loading;
   }
 
@@ -445,7 +485,8 @@
       email: state.customer.email,
       booking_for_someone_else: state.bookingForOther,
       recipient_name: state.bookingForOther ? state.customer.recipientName : null,
-      notes: state.customer.notes || ""
+      notes: state.customer.notes || "",
+      company: state.honeypot // honeypot: siempre "" para una persona
     };
 
     var result = await STORE.submitBooking(payload);
@@ -459,11 +500,11 @@
     }
 
     if (result.status === 409) return handleSlotGone(result.message);
-    showError(result.message || "We couldn't book your appointment. Please try again.");
+    showError(result.message || "No pudimos registrar tu cita. Inténtalo de nuevo en unos minutos.");
   }
 
   function handleSlotGone(message) {
-    showError(message || "That time slot was just booked. Please select another one.");
+    showError(message || "Ese horario acaba de ser reservado. Elige otro, por favor.");
     state.time = null;
     setTimeout(function () { goToStep(3, "back"); }, 1500);
   }
@@ -562,11 +603,12 @@
     if (e.target.id !== "bkCustomerForm") return;
     e.preventDefault();
     var f = e.target;
-    var phoneDigits = f.phone.value.replace(/\D/g, "");
-    if (phoneDigits.length < 10) { f.phone.setCustomValidity("Enter a valid 10-digit phone number."); f.reportValidity(); return; }
-    f.phone.setCustomValidity("");
-    if (!f.checkValidity()) { f.reportValidity(); return; }
 
+    var error = validateCustomerForm(f);
+    if (error) { showFormError(error); return; }
+    showFormError(null);
+
+    state.honeypot = (f.company && f.company.value ? f.company.value : "").trim();
     state.customer.firstName = f.firstName.value.trim();
     state.customer.lastName = f.lastName.value.trim();
     state.customer.phone = f.phone.value.trim();

@@ -1,0 +1,31 @@
+SAHYLY SALON & BOUTIQUE
+Nueva solicitud desde tu sitio web
+
+Código de reserva: SHY-20260412-014
+
+DETALLE DE LA CITA
+Servicio: Full Balayage
+Estilista: Sahyly Pedraza
+Precio desde: Desde $285
+Fecha: Domingo, 12 de abril de 2026
+Hora: 2:30 PM - 3:30 PM
+
+DATOS DEL CLIENTE
+Nombre: María José Hernández
+Teléfono: (713) 555-0142
+Correo: maria.hernandez@example.com
+La cita es para: Andrea Hernández
+
+MENSAJE DEL CLIENTE
+Quisiera un tono un poco más claro que la última vez.
+Si hay espacio, también me gustaría un corte de puntas.
+
+Responder al cliente: mailto:maria.hernandez@example.com
+WhatsApp: https://wa.me/17135550142
+Llamar: tel:+17135550142
+
+--
+Sahyly Salon & Boutique
+3604 Fairmont Pkwy, Suite A-2, Pasadena, TX 77504
+713-505-4551
+Enviado el 17 de septiembre de 2026 a las 5:35 p. m. (hora de El Salvador)
